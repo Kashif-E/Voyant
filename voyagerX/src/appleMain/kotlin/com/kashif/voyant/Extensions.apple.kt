@@ -21,16 +21,11 @@ import platform.UIKit.navigationController
  *
  * @param screen The screen to be pushed.
  */
-actual fun Navigator.pushX(screen: Screen) {
+actual fun Navigator.pushX(screen: Screen, ) {
     val viewController = extendedComposeViewController(screen = screen)
     viewController.hidesBottomBarWhenPushed = true
-
     val navigationController = getNavigationController()
-    navigationController?.let { navController ->
-        navController.pushViewController(viewController, animated = true)
-        navController.interactivePopGestureRecognizer?.setEnabled(true)
-        navController.interactivePopGestureRecognizer?.delegate = viewController as? UIGestureRecognizerDelegateProtocol
-    } ?: run {
+    navigationController?.pushViewController(viewController, animated = true) ?: run {
         NSLog("NavigationController is null")
     }
 }
@@ -87,4 +82,5 @@ actual fun BottomSheetNavigator.showX(screen: Screen) {
         NSLog("TopViewController is null")
     }
 }
+
 

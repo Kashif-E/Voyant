@@ -1,99 +1,166 @@
 package com.kashif.voyant.extensions
 
-
 import kotlinx.cinterop.BetaInteropApi
+import kotlinx.cinterop.CValue
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.ObjCAction
+import kotlinx.cinterop.useContents
+import platform.CoreGraphics.CGFloat
+import platform.CoreGraphics.CGPoint
+import platform.CoreGraphics.CGRect
+import platform.CoreGraphics.CGRectMake
 import platform.Foundation.NSLog
-import platform.Foundation.NSSelectorFromString
+import platform.UIKit.UIColor
 import platform.UIKit.UIEvent
 import platform.UIKit.UIGestureRecognizer
 import platform.UIKit.UIGestureRecognizerDelegateProtocol
 import platform.UIKit.UINavigationController
 import platform.UIKit.UINavigationControllerDelegateProtocol
-import platform.UIKit.UIPress
 import platform.UIKit.UISwipeGestureRecognizer
-import platform.UIKit.UISwipeGestureRecognizerDirectionLeft
-import platform.UIKit.UISwipeGestureRecognizerDirectionRight
-import platform.UIKit.UITouch
+import platform.UIKit.UIView
+import platform.UIKit.UIViewAutoresizingFlexibleHeight
+import platform.UIKit.UIViewAutoresizingFlexibleWidth
 import platform.UIKit.UIViewController
 import platform.UIKit.addChildViewController
-import platform.UIKit.didMoveToParentViewController
 import platform.UIKit.navigationController
+import platform.UIKit.navigationItem
 import platform.UIKit.willMoveToParentViewController
 
-/**
- * A custom `UIViewController` that wraps another `UIViewController` and adds gesture recognizer functionality.
- * Implements the `UIGestureRecognizerDelegateProtocol` to handle swipe gestures.
- *
- * @property controller The `UIViewController` instance that is being wrapped.
- */
 class UIViewControllerWrapper(
     private val controller: UIViewController,
 ) : UIViewController(null, null), UIGestureRecognizerDelegateProtocol,
     UINavigationControllerDelegateProtocol {
 
-    /**
-     * Called when the view controller's view is loaded into memory.
-     * Sets up the view hierarchy by adding the wrapped controller's view as a subview
-     * and managing the parent-child relationship between the view controllers.
-     */
     @OptIn(ExperimentalForeignApi::class)
     override fun loadView() {
         super.loadView()
+
         controller.willMoveToParentViewController(this)
-        controller.view.setFrame(view.frame)
+        controller.view.setFrame(view.bounds)
         view.addSubview(controller.view)
         addChildViewController(controller)
-        controller.didMoveToParentViewController(this)
+
+        createPaddingViews()
     }
 
-    /**
-     * Called after the view has been loaded.
-     * Sets the delegate for the interactive pop gesture recognizer
-     */
+
+
+    @OptIn(ExperimentalForeignApi::class)
+    private fun createPaddingViews() {
+        val padding: CGFloat = 20.0
+
+        val width = view.bounds.useContents { this.size.width }
+        val height = view.bounds.useContents { this.size.height }
+        val topPaddingView = UIView(CGRectMake(0.0, 0.0, width, padding)).apply {
+            backgroundColor = UIColor.clearColor
+            autoresizingMask = UIViewAutoresizingFlexibleWidth
+        }
+
+        val bottomPaddingView = UIView(
+            CGRectMake(
+                0.0,
+                height - padding,
+                width,
+                padding
+            )
+        ).apply {
+            backgroundColor = UIColor.clearColor
+            autoresizingMask = UIViewAutoresizingFlexibleWidth
+        }
+
+        val leftPaddingView =
+            UIView(CGRectMake(0.0, padding, padding, height - 2 * padding)).apply {
+                backgroundColor = UIColor.clearColor
+                autoresizingMask = UIViewAutoresizingFlexibleHeight
+            }
+
+        val rightPaddingView = UIView(
+            CGRectMake(
+                width - padding,
+                padding,
+                padding,
+                height - 2 * padding
+            )
+        ).apply {
+            backgroundColor = UIColor.clearColor
+            autoresizingMask = UIViewAutoresizingFlexibleHeight
+        }
+
+        view.addSubview(topPaddingView)
+        view.addSubview(bottomPaddingView)
+        view.addSubview(leftPaddingView)
+        view.addSubview(rightPaddingView)
+    }
+
     override fun viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.interactivePopGestureRecognizer?.enabled= true
         navigationController?.interactivePopGestureRecognizer?.delegate = this
-        controller.navigationController?.interactivePopGestureRecognizer?.delegate = this
     }
 
-    /**
-     * Handles the swipe gestures detected by the gesture recognizers.
-     * Logs the direction of the swipe.
-     *
-     * @param sender The `UISwipeGestureRecognizer` that detected the swipe.
-     */
+
+    override fun viewWillAppear(animated: Boolean) {
+        super.viewWillAppear(animated)
+        navigationController?.interactivePopGestureRecognizer?.delegate = this
+        navigationItem.hidesBackButton = true
+    }
+
+
     @OptIn(BetaInteropApi::class)
     @ObjCAction
     fun handleSwipe(sender: UISwipeGestureRecognizer) {
         NSLog("Swipe detected: ${sender.direction}")
     }
 
-
-    /**
-     * Called when the view controller is about to be displayed.
-     * Enables the interactive pop gesture recognizer.
-     *
-     * @param navigationController The navigation controller that will display the view controller.
-     * @param willShowViewController The view controller that will be displayed.
-     * @param animated A flag indicating whether the transition will be animated.
-     */
-
     override fun navigationController(
         navigationController: UINavigationController,
         willShowViewController: UIViewController,
         animated: Boolean
     ) {
-        navigationController.interactivePopGestureRecognizer?.setEnabled(true)
+        navigationController.interactivePopGestureRecognizer?.enabled = true
     }
 
-
     override fun gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer): Boolean {
-        println("gestureRecognizerShouldBegin")
-
         return true
     }
 
+    override fun gestureRecognizer(
+        gestureRecognizer: UIGestureRecognizer,
+        shouldRecognizeSimultaneouslyWithGestureRecognizer: UIGestureRecognizer
+    ): Boolean {
+        return true
+    }
+}
 
+@OptIn(ExperimentalForeignApi::class)
+class TransparentPassThroughView(frame: CValue<CGRect>) : UIView(frame = frame),
+    UIGestureRecognizerDelegateProtocol {
+
+    init {
+        backgroundColor = UIColor.clearColor
+    }
+
+    override fun hitTest(point: CValue<CGPoint>, withEvent: UIEvent?): UIView? {
+
+        val pointX = point.useContents { this.x }
+        val pointY = point.useContents { this.y }
+
+        if (pointX >= 0 && pointX <= bounds.useContents { this.size.width } && pointY >= 0 && pointY <= bounds.useContents { this.size.height }) {
+            return null
+        }
+
+        return super.hitTest(point, withEvent)
+    }
+
+    override fun gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer): Boolean {
+        NSLog("gestureRecognizerShouldBegin: true")
+        return true // Allow gesture recognition to begin
+    }
+
+    override fun gestureRecognizer(
+        gestureRecognizer: UIGestureRecognizer,
+        shouldRecognizeSimultaneouslyWithGestureRecognizer: UIGestureRecognizer
+    ): Boolean {
+        return true
+    }
 }

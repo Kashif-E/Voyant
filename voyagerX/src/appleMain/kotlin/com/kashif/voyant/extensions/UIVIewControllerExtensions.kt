@@ -2,6 +2,7 @@ package com.kashif.voyant.extensions
 
 
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.uikit.OnFocusBehavior
@@ -76,7 +77,6 @@ fun debugTopViewController(base: UIViewController? = UIApplication.sharedApplica
  */
 @OptIn(ExperimentalComposeApi::class, ExperimentalMaterialApi::class)
 fun extendedComposeViewController(
-    modifier: Modifier = Modifier,
     screen: Screen,
     isOpaque: Boolean = true,
 ): UIViewController {
@@ -84,9 +84,12 @@ fun extendedComposeViewController(
         onFocusBehavior = OnFocusBehavior.DoNothing
         opaque = isOpaque
     }) {
-        BottomSheetNavigator {
-            Navigator(screen = screen)
+        MaterialTheme {
+            BottomSheetNavigator {
+                Navigator(screen = screen)
+            }
         }
+
     }
 
     return UIViewControllerWrapper(uiViewController)
