@@ -1,18 +1,10 @@
 package com.kashif.voyant.extensions
 
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.uikit.OnFocusBehavior
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.ComposeUIViewController
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.Navigator
@@ -92,25 +84,8 @@ fun extendedComposeViewController(
         onFocusBehavior = OnFocusBehavior.DoNothing
         opaque = isOpaque
     }) {
-
-        Box(modifier = modifier.imePadding()
-            .padding(top = WindowInsets.safeDrawing.asPaddingValues().calculateTopPadding())
-            .pointerInput(Unit) {
-                awaitPointerEventScope {
-                    while (true) {
-                        val event = awaitPointerEvent()
-                        val position = event.changes.first().position
-                        // Don't consume events within 50.dp from the left edge
-                        if (position.x > 50.dp.toPx()) {
-                            event.changes.forEach { it.consume() }
-                        }
-                    }
-                }
-            }
-        ) {
-            BottomSheetNavigator {
-                Navigator(screen = screen)
-            }
+        BottomSheetNavigator {
+            Navigator(screen = screen)
         }
     }
 

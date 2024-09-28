@@ -7,9 +7,12 @@ import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import com.kashif.voyant.extensions.extendedComposeViewController
 import com.kashif.voyant.extensions.getTopViewController
 import platform.Foundation.NSLog
+import platform.UIKit.UIApplication
+import platform.UIKit.UIApplicationDelegateProtocol
 import platform.UIKit.UIGestureRecognizerDelegateProtocol
 import platform.UIKit.UINavigationController
 import platform.UIKit.UINavigationControllerDelegateProtocol
+import platform.UIKit.UIResponder
 import platform.UIKit.hidesBottomBarWhenPushed
 import platform.UIKit.navigationController
 
@@ -25,7 +28,6 @@ actual fun Navigator.pushX(screen: Screen) {
     val navigationController = getNavigationController()
     navigationController?.let { navController ->
         navController.pushViewController(viewController, animated = true)
-        // Enable the gesture recognizer after pushing and set its delegate
         navController.interactivePopGestureRecognizer?.setEnabled(true)
         navController.interactivePopGestureRecognizer?.delegate = viewController as? UIGestureRecognizerDelegateProtocol
     } ?: run {
@@ -85,3 +87,4 @@ actual fun BottomSheetNavigator.showX(screen: Screen) {
         NSLog("TopViewController is null")
     }
 }
+

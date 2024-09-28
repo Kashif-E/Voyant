@@ -50,13 +50,12 @@ class UIViewControllerWrapper(
 
     /**
      * Called after the view has been loaded.
-     * Sets the delegate for the interactive pop gesture recognizer and adds swipe gesture recognizers
-     * for left and right swipe directions.
+     * Sets the delegate for the interactive pop gesture recognizer
      */
-    @OptIn(ExperimentalForeignApi::class)
     override fun viewDidLoad() {
         super.viewDidLoad()
         navigationController?.interactivePopGestureRecognizer?.delegate = this
+        controller.navigationController?.interactivePopGestureRecognizer?.delegate = this
     }
 
     /**
@@ -73,63 +72,28 @@ class UIViewControllerWrapper(
 
 
     /**
-     * Determines whether the gesture recognizer should receive an object representing a touch.
-     * Always returns `true`.
+     * Called when the view controller is about to be displayed.
+     * Enables the interactive pop gesture recognizer.
      *
-     * @param gestureRecognizer The `UIGestureRecognizer` that is asking whether it should receive the touch.
-     * @param shouldReceiveTouch The `UITouch` object representing the touch.
-     * @return `true` to allow the gesture recognizer to receive the touch.
+     * @param navigationController The navigation controller that will display the view controller.
+     * @param willShowViewController The view controller that will be displayed.
+     * @param animated A flag indicating whether the transition will be animated.
      */
-    override fun gestureRecognizer(
-        gestureRecognizer: UIGestureRecognizer,
-        shouldReceiveEvent: UIEvent
-    ): Boolean {
-        println("gestureRecognizer shouldReceiveEvent")
-        return true
-    }
-
-    /**
-     *  This method is called for press events
-     */
-    override fun gestureRecognizer(
-        gestureRecognizer: UIGestureRecognizer,
-        shouldReceivePress: UIPress
-    ): Boolean {
-        println("gestureRecognizer shouldReceivePress")
-        return true
-    }
-
 
     override fun navigationController(
         navigationController: UINavigationController,
         willShowViewController: UIViewController,
         animated: Boolean
     ) {
-        // Enable the gesture recognizer when pushing or popping view controllers
-        navigationController.interactivePopGestureRecognizer?.setEnabled(navigationController.viewControllers.size > 1)
+        navigationController.interactivePopGestureRecognizer?.setEnabled(true)
     }
 
 
     override fun gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer): Boolean {
         println("gestureRecognizerShouldBegin")
-        if (gestureRecognizer == navigationController?.interactivePopGestureRecognizer) {
-            return navigationController?.viewControllers?.size ?: 0 > 1
-        }
+
         return true
     }
 
-    override fun gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch: UITouch): Boolean {
-        println("gestureRecognizer shouldReceiveTouch")
-        return true
-    }
-
-    override fun gestureRecognizer(
-        gestureRecognizer: UIGestureRecognizer,
-        shouldRequireFailureOfGestureRecognizer: UIGestureRecognizer
-    ): Boolean {
-        println("gestureRecognizer shouldRequireFailureOfGestureRecognizer")
-        // Change this to return true for the navigation gesture
-        return gestureRecognizer == navigationController?.interactivePopGestureRecognizer
-    }
 
 }
