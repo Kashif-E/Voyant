@@ -1,43 +1,51 @@
+
 # Voyant
 
-Kotlin Multiplatform Library
+<p align="center">
+  <a href="https://github.com/Kashif-E/Voyant/releases/tag/0.0.1">
+    <img src="https://img.shields.io/github/v/release/kashif-e/voyant" alt="Version">
+  </a>
+</p>
 
-### Publish to MavenCentral
+## Overview
 
-1) Registering a Sonatype account as described here: 
-   https://dev.to/kotlin/how-to-build-and-publish-a-kotlin-multiplatform-library-going-public-4a8k
-2) Add developer id, name, email and the project url to
-   `/convention-plugins/src/main/kotlin/convention.publication.gradle.kts`
-3) Add the secrets to `local.properties`:
 
+The **Voyant** is an extension library for **Voyager** it enables developers to use native ios navigation for **Apple** platforms.
+
+
+## Installation
+
+```Kotlin  
+implementation("io.github.kashif-mehmood-km:voyant:+")  
+```  
+
+## Supported Platforms
+
+- Android
+- IOS
+- WasmJS
+- JVM
+
+## Usage
+
+Instead of using methods of voyager library like `push` use `pushX` instead. Similary for `BottomSheetNavigator` use `showX` instead of `show`
+
+
+You can check the `composeApp` for more details.
+
+The library is in an experimental stage, APIs can change/break.
+
+
+**Contributions**
+
+We welcome contributions! Before submitting a pull request, please open an issue so we can discuss the proposed changes and collaborate on improving the project.
+
+**Feature Requests**
+Feature requests are encouraged, and I’ll do my best to address them as quickly as possible.
+
+
+## License
+
+```  
+MIT License  
 ```
-signing.keyId=...
-signing.password=...
-signing.secretKeyRingFile=...
-ossrhUsername=...
-ossrhPassword=...
-```
-
-4) Run `./gradlew :voyagerX:publishAllPublicationsToSonatypeRepository`
-
-### Build platform artifacts
-
-#### Android aar
-
-- Run `./gradlew :voyagerX:assembleRelease`
-- Output: `/voyagerX/build/outputs/aar/voyagerX-release.aar`
-
-#### JVM jar
-
-- Run `./gradlew :voyagerX:jvmJar`
-- Output: `/voyagerX/build/libs/voyagerX-jvm-1.0.jar`
-
-#### iOS Framework
-
-- Run `./gradlew :voyagerX:linkReleaseFrameworkIosArm64`
-- Output: `/voyagerX/build/bin/iosArm64/releaseFramework/voyagerX.framework`
-
-#### Wasm binary file
-
-- Run `./gradlew :voyagerX:wasmJsBrowserDistribution`
-- Output: `/voyagerX/build/dist/wasmJs/productionExecutable/voyagerX-wasm-js.wasm`
