@@ -5,16 +5,10 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import com.kashif.voyant.extensions.extendedComposeViewController
-import com.kashif.voyant.extensions.getTopViewController
+import com.kashif.voyant_common.extensions.getNavigationController
+import com.kashif.voyant_common.extensions.getTopViewController
 import platform.Foundation.NSLog
-import platform.UIKit.UIApplication
-import platform.UIKit.UIApplicationDelegateProtocol
-import platform.UIKit.UIGestureRecognizerDelegateProtocol
-import platform.UIKit.UINavigationController
-import platform.UIKit.UINavigationControllerDelegateProtocol
-import platform.UIKit.UIResponder
 import platform.UIKit.hidesBottomBarWhenPushed
-import platform.UIKit.navigationController
 
 /**
  * Pushes a new screen onto the navigation stack.
@@ -56,17 +50,6 @@ actual fun Navigator.popUntilRootX() {
     }
 }
 
-/**
- * Retrieves the top `UINavigationController` from the view hierarchy.
- *
- * @return The top `UINavigationController`, or null if none is found.
- */
-fun getNavigationController(): UINavigationController? {
-    val topVc = getTopViewController()
-    return topVc?.let { topViewController ->
-        topViewController as? UINavigationController ?: topViewController.navigationController
-    }
-}
 
 actual fun BottomSheetNavigator.hideX() {
     val topVc = getTopViewController()

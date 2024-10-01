@@ -1,5 +1,5 @@
-import org.jetbrains.compose.ExperimentalComposeLibrary
 import com.android.build.api.dsl.ManagedVirtualDevice
+import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.compose)
     alias(libs.plugins.android.application)
+    kotlin("plugin.serialization") version "2.0.20"
 }
 
 kotlin {
@@ -46,8 +47,13 @@ kotlin {
             implementation(compose.material)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            implementation(project(":voyagerX"))
+            implementation(projects.voyagerX)
+            implementation(projects.navigationComposeX)
+            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
         }
+
+
+
 
         commonTest.dependencies {
             implementation(kotlin("test"))
@@ -81,16 +87,16 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     //https://developer.android.com/studio/test/gradle-managed-devices
-    @Suppress("UnstableApiUsage")
-    testOptions {
-        managedDevices.devices {
-            maybeCreate<ManagedVirtualDevice>("pixel5").apply {
-                device = "Pixel 5"
-                apiLevel = 34
-                systemImageSource = "aosp"
-            }
-        }
-    }
+//    @Suppress("UnstableApiUsage")
+//    testOptions {
+//        managedDevices.devices {
+//            maybeCreate<ManagedVirtualDevice>("pixel5").apply {
+//                device = "Pixel 5"
+//                apiLevel = 34
+//                systemImageSource = "aosp"
+//            }
+//        }
+//    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8

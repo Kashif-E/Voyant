@@ -1,14 +1,11 @@
-import com.vanniktech.maven.publish.SonatypeHost
-
 plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.android.library)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.compose)
-    id("com.vanniktech.maven.publish") version "0.28.0"
 }
 
-group = "com.kashif.voyant.voyagerx"
+group = "com.kashif.voyant-common"
 version = "1.0"
 
 kotlin {
@@ -30,28 +27,30 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "voyagerX"
+            baseName = "voyant-common"
             isStatic = true
         }
     }
 
     sourceSets {
         commonMain.dependencies {
-            api(projects.common)
-            api(libs.voyager.navigator)
-            api(libs.voyager.bottom.sheet.navigator)
+            api(libs.kotlinx.coroutines.core)
+            api(libs.kotlinx.coroutines.test)
+            api(compose.ui)
+            api(compose.foundation)
+            api(compose.material)
         }
 
         commonTest.dependencies {
-
+            api(kotlin("test"))
         }
 
         androidMain.dependencies {
-
+            api(libs.kotlinx.coroutines.android)
         }
 
         jvmMain.dependencies {
-
+            api(libs.kotlinx.coroutines.swing)
         }
 
     }
@@ -64,7 +63,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.kashif.voyant.voyagerx"
+    namespace = "com.kashif.voyant_common"
     compileSdk = 35
 
     defaultConfig {
@@ -82,46 +81,4 @@ android {
             // Exclude Javadoc and sources JARs for debug variant
         }
     }
-}
-
-mavenPublishing {
-    coordinates(
-        groupId = "io.github.kashif-mehmood-km",
-        artifactId = "voyant-voyagerx",
-        version = "0.0.1"
-    )
-
-
-
-    pom {
-        name.set("Voyant")
-        description.set("Voyant is an extension library for Voyager (navigation compose will be added later) to use native navigation on apple platforms..")
-        inceptionYear.set("2024")
-        url.set("https://github.com/kashif-e/voyant")
-
-        licenses {
-            license {
-                name.set("MIT")
-                url.set("https://opensource.org/licenses/MIT")
-            }
-        }
-
-        developers {
-            developer {
-                id.set("Kashif-E")
-                name.set("Kashif")
-                email.set("kashismails@gmail.com")
-            }
-        }
-
-        scm {
-            url.set("https://github.com/kashif-e/voyant")
-        }
-    }
-
-    // Configure publishing to Maven Central
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
-
-    // Enable GPG signing for all publications
-    signAllPublications()
 }

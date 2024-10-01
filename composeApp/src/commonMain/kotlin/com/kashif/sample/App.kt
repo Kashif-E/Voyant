@@ -1,11 +1,35 @@
 package com.kashif.sample
 
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -13,10 +37,12 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.kashif.sample.theme.AppTheme
@@ -26,7 +52,11 @@ import com.kashif.voyant.popUntilRootX
 import com.kashif.voyant.popX
 import com.kashif.voyant.pushX
 import com.kashif.voyant.showX
+import com.kashif.voyant_navigation_compose.VoyantRoute
+import com.kashif.voyant_navigation_compose.navigateX
+import com.kashif.voyant_navigation_compose.popBackStackX
 import kotlinx.coroutines.isActive
+import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
@@ -42,13 +72,53 @@ import voyant.composeapp.generated.resources.run
 import voyant.composeapp.generated.resources.stop
 import voyant.composeapp.generated.resources.theme
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 internal fun App() = AppTheme {
-    BottomSheetNavigator {
-        Navigator(ScreenA())
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = MovieScreenRoute) {
+        composable<MovieScreenRoute> { backStackEntry ->
+            val searchDomainModel = backStackEntry.toRoute<MovieScreenRoute>()
+            searchDomainModel.content()
+        }
+        composable<MovieDetailsScreen> { navBackStackEntry ->
+            val searchDomainModel = navBackStackEntry.toRoute<MovieDetailsScreen>()
+            searchDomainModel.content()
+        }
+    }
+
+}
+
+
+@Serializable
+object MovieScreenRoute : VoyantRoute {
+    @Composable
+    override fun content() {
+        val navController = rememberNavController()
+        Box(modifier = Modifier.fillMaxSize()) {
+            Text(
+                "Movie Screen",
+                modifier = Modifier.padding(16.dp).align(Alignment.Center).clickable {
+                    navController.navigateX(MovieDetailsScreen)
+                })
+        }
     }
 }
+
+@Serializable
+object MovieDetailsScreen : VoyantRoute {
+    @Composable
+    override fun content() {
+        val navController = rememberNavController()
+        Box(modifier = Modifier.fillMaxSize()) {
+            Text(
+                "Movie details Screen",
+                modifier = Modifier.padding(16.dp).align(Alignment.Center).clickable {
+                    navController.popBackStackX()
+                })
+        }
+    }
+}
+
 
 class ScreenA : Screen {
     @Composable

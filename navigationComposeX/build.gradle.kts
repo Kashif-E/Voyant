@@ -8,7 +8,7 @@ plugins {
     id("com.vanniktech.maven.publish") version "0.28.0"
 }
 
-group = "com.kashif.voyant.voyagerx"
+group = "com.kashif.voyant.navigationcompose"
 version = "1.0"
 
 kotlin {
@@ -30,7 +30,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "voyagerX"
+            baseName = "voyant-navigation-compose"
             isStatic = true
         }
     }
@@ -38,20 +38,19 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(projects.common)
-            api(libs.voyager.navigator)
-            api(libs.voyager.bottom.sheet.navigator)
+            api(libs.navigation.compose)
         }
 
         commonTest.dependencies {
-
+            implementation(kotlin("test"))
         }
 
         androidMain.dependencies {
-
+            implementation(libs.kotlinx.coroutines.android)
         }
 
         jvmMain.dependencies {
-
+            implementation(libs.kotlinx.coroutines.swing)
         }
 
     }
@@ -64,7 +63,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.kashif.voyant.voyagerx"
+    namespace = "com.kashif.voyant.navigationcompose"
     compileSdk = 35
 
     defaultConfig {
@@ -87,7 +86,7 @@ android {
 mavenPublishing {
     coordinates(
         groupId = "io.github.kashif-mehmood-km",
-        artifactId = "voyant-voyagerx",
+        artifactId = "voyant-navigation-compose",
         version = "0.0.1"
     )
 
