@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
@@ -43,6 +44,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.kashif.sample.theme.AppTheme
@@ -74,6 +77,20 @@ import voyant.composeapp.generated.resources.theme
 
 @Composable
 internal fun App() = AppTheme {
+    // call the function that contains the navigation you want to test
+    VoyagerNavigation()
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun VoyagerNavigation() {
+    BottomSheetNavigator {
+        Navigator(ScreenA())
+    }
+}
+
+@Composable
+fun NavigationCompose() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = MovieScreenRoute) {
         composable<MovieScreenRoute> { backStackEntry ->
@@ -85,7 +102,6 @@ internal fun App() = AppTheme {
             searchDomainModel.content()
         }
     }
-
 }
 
 
