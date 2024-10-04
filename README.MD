@@ -36,6 +36,18 @@ implementation("io.github.kashif-mehmood-km:voyant-navigation-compose:0.0.2")
 
 ## Usage
 
+**Theme**
+IOS navigation works differently then compose navigation. In IOS navigation, we have to provide a
+theme to every viewController as it can not inherit it from previous view controller. For that, we have to provide a theme to every viewcontroller.
+Its done internally from the library. You only have to add this code to top level Composable.
+
+```Kotlin
+ LaunchedEffect(Unit) {
+     //AppTheme Being your material theme
+        ThemeManager.setTheme { content -> AppTheme { content() } }
+    }
+```
+
 **Voyager**
 
 Instead of using methods of voyager library like `push` use `pushX` instead. Similary for `BottomSheetNavigator` use `showX` instead of `show`
