@@ -1,13 +1,19 @@
 package com.kashif.voyant
 
 
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.runtime.ExperimentalComposeApi
+import androidx.compose.ui.uikit.OnFocusBehavior
+import androidx.compose.ui.window.ComposeUIViewController
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
-import com.kashif.voyant.extensions.extendedComposeViewController
+import com.kashif.voyant_common.ThemeManager
+import com.kashif.voyant_common.extensions.UIViewControllerWrapper
 import com.kashif.voyant_common.extensions.getNavigationController
 import com.kashif.voyant_common.extensions.getTopViewController
 import platform.Foundation.NSLog
+import platform.UIKit.UIViewController
 import platform.UIKit.hidesBottomBarWhenPushed
 
 /**
@@ -67,3 +73,30 @@ actual fun BottomSheetNavigator.showX(screen: Screen) {
 }
 
 
+/**
+ * Creates a `UIViewController` that hosts a Compose UI.
+ *
+ * @param modifier The `Modifier` to be applied to the Compose UI.
+ * @param screen The `Screen` to be displayed in the Compose UI.
+ * @param isOpaque Whether the view controller's view is opaque.
+ * @return A `UIViewController` that hosts the Compose UI.
+ */
+@OptIn(ExperimentalComposeApi::class, ExperimentalMaterialApi::class)
+fun extendedComposeViewController(
+    screen: Screen,
+    isOpaque: Boolean = true,
+): UIViewController {
+    val uiViewController = ComposeUIViewController(configure = {
+        onFocusBehavior = OnFocusBehavior.DoNothing
+        opaque = isOpaque
+    }) {
+        ThemeManager.currentTheme {
+            BottomSheetNavigator {
+                Navigator(screen = screen)
+            }
+        }
+
+    }
+
+    return UIViewControllerWrapper(uiViewController)
+}

@@ -1,11 +1,22 @@
 package com.kashif.voyant_navigation_compose
 
+import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 
-actual fun NavHostController.popBackStackX() {
-    this.popBackStack()
+class AndroidNavController(private val navController: NavController) : NavigationController {
+    override fun navigate(route: VoyantRoute) {
+        navController.navigate(route)
+    }
+
+    override fun popBackStack() {
+        navController.popBackStack()
+    }
 }
 
-actual fun NavHostController.navigateX(route: VoyantRoute) {
-    this.navigate(route)
+@Composable
+actual fun  rememberKMPNavController(): NavigationController {
+    val navController = rememberNavController()
+    return AndroidNavController(navController)
 }

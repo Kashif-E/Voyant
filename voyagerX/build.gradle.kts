@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.compose)
     id("com.vanniktech.maven.publish") version "0.28.0"
+    kotlin("plugin.serialization") version "2.0.20"
 }
 
 group = "com.kashif.voyant.voyagerx"
@@ -71,6 +72,7 @@ android {
         minSdk = 21
     }
 
+
     publishing {
         singleVariant("release") {
             withJavadocJar()
@@ -82,6 +84,9 @@ android {
             // Exclude Javadoc and sources JARs for debug variant
         }
     }
+}
+dependencies {
+    implementation(libs.androidx.core.ktx)
 }
 
 mavenPublishing {

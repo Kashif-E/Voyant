@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.compose)
+    kotlin("plugin.serialization") version "2.0.20"
 }
 
 group = "com.kashif.voyant-common"
@@ -39,6 +40,8 @@ kotlin {
             api(compose.ui)
             api(compose.foundation)
             api(compose.material)
+            api(libs.kotlinx.serialization.json)
+            api(compose.material3)
         }
 
         commonTest.dependencies {
