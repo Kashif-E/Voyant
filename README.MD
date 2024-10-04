@@ -10,14 +10,22 @@
 ## Overview
 
 
-The **Voyant** is an extension library for **Voyager** it enables developers to use native ios navigation for **Apple** platforms.
+The **Voyant** is an extension library for **Voyager** and **Jetpack Compose Navigation** it enables developers to use native navigation for **Apple** platforms.
 
 
 ## Installation
 
+- For Voyager
+
 ```Kotlin  
-implementation("io.github.kashif-mehmood-km:voyant:+")  
+implementation("io.github.kashif-mehmood-km:voyant-voyagerx:0.0.2")  
 ```  
+- For compose Navigation
+
+```Kotlin
+implementation("io.github.kashif-mehmood-km:voyant-navigation-compose:0.0.2") 
+```
+
 
 ## Supported Platforms
 
@@ -28,10 +36,64 @@ implementation("io.github.kashif-mehmood-km:voyant:+")
 
 ## Usage
 
+**Voyager**
 Instead of using methods of voyager library like `push` use `pushX` instead. Similary for `BottomSheetNavigator` use `showX` instead of `show`
 
+**Navigation Compose**
 
-You can check the `composeApp` for more details.
+Inherit your screens from this `VoyantRoute` interface
+
+```Kotlin
+interface VoyantRoute{
+    @Composable
+    fun content()
+}
+```
+create your screens like this
+
+```kotlin
+@Serializable
+object MovieScreenRoute : VoyantRoute {
+    @Composable
+    override fun content() {
+        val navController = rememberKMPNavController()
+        Box(modifier = Modifier.fillMaxSize()) {
+            Text(
+                "Movie Screen",
+                modifier = Modifier.padding(16.dp).align(Alignment.Center).clickable {
+                    navController.navigate(MovieDetailsScreenRoute)
+                })
+        }
+    }
+}
+```
+- ***Note:*** that instead of `rememeberNavController` we are using `rememberKMPNavController` instead
+
+
+define the navgraph and use the serialized version of routes and get them from back stack entry
+
+```Kotlin
+@Composable
+fun NavigationCompose() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = MovieScreenRoute) {
+        composable<MovieScreenRoute> { backStackEntry ->
+            val searchDomainModel = backStackEntry.toRoute<MovieScreenRoute>()
+            searchDomainModel.content()
+        }
+        composable<MovieDetailsScreenRoute> { navBackStackEntry ->
+            val movieDetailsScreenRoute = navBackStackEntry.toRoute<MovieDetailsScreenRoute>()
+            movieDetailsScreenRoute.content()
+        }
+    }
+}
+
+
+```
+
+
+
+You can check the `composeApp` for more details on both `navigation compose` and `voyager` usage.
 
 The library is in an experimental stage, APIs can change/break.
 
