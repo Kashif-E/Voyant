@@ -14,7 +14,7 @@
 
 ## Demo
 
-<img src="art/demo.gif" width="300" height="450" />
+<img src="art/demo.gif" width="300" height="650" />
 
 ## Installation
 
