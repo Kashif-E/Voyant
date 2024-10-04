@@ -12,6 +12,12 @@
 
  **Voyant** is an extension library for **Voyager** and **Jetpack Compose Navigation** it enables developers to use native navigation for **Apple** platforms.
 
+## Demo
+
+<video width="600" controls>
+  <source src="art/demo.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 ## Installation
 
