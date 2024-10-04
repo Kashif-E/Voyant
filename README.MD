@@ -14,7 +14,7 @@
 
 ## Demo
 
-![Demo GIF](art/demo.gif)
+<img src="art/demo.gif" width="400" height="300" />
 
 ## Installation
 
