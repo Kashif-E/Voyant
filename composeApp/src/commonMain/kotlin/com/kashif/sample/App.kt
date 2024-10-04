@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,14 +16,16 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.kashif.sample.compose.NavigationCompose
 import com.kashif.sample.theme.AppTheme
-import com.kashif.sample.voyager.VoyagerNavigation
+import com.kashif.sample.voyager.ScreenA
 import com.kashif.voyant.pushX
 import com.kashif.voyant_common.ThemeManager
 
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 internal fun App() {
 
@@ -31,7 +34,9 @@ internal fun App() {
     }
 
     AppTheme {
-        Navigator(MainScreen())
+        BottomSheetNavigator {
+            Navigator(MainScreen())
+        }
     }
 }
 
@@ -44,21 +49,14 @@ class MainScreen : Screen {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Button(onClick = { localNavigator.pushX(VoyagerNav()) }) {
+            Button(onClick = { localNavigator.pushX(ScreenA()) }) {
                 Text(text = "Voyager Navigation")
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Button(onClick = { localNavigator.pushX(ComposeNav()) }) {
+            Button(onClick = { localNavigator.push(ComposeNav()) }) {
                 Text(text = "Navigation Compose")
             }
         }
-    }
-}
-
-class VoyagerNav : Screen {
-    @Composable
-    override fun Content() {
-        VoyagerNavigation()
     }
 }
 
