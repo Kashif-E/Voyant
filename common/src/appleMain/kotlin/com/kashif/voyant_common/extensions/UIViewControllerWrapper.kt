@@ -1,4 +1,4 @@
-package com.kashif.voyant.extensions
+package com.kashif.voyant_common.extensions
 
 import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.CValue

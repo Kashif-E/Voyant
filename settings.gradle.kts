@@ -1,5 +1,5 @@
 rootProject.name = "Voyant"
-
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 pluginManagement {
     repositories {
         google {
@@ -32,3 +32,5 @@ includeBuild("convention-plugins")
 include(":voyagerX")
 include(":composeApp")
 
+include(":navigationComposeX")
+include(":common")

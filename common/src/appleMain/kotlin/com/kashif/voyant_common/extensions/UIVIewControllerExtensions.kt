@@ -1,21 +1,13 @@
-package com.kashif.voyant.extensions
+package com.kashif.voyant_common.extensions
 
 
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.ExperimentalComposeApi
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.uikit.OnFocusBehavior
-import androidx.compose.ui.window.ComposeUIViewController
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import platform.Foundation.NSLog
 import platform.UIKit.UIApplication
 import platform.UIKit.UINavigationController
 import platform.UIKit.UITabBarController
 import platform.UIKit.UIViewController
 import platform.UIKit.childViewControllers
+import platform.UIKit.navigationController
 
 /**
  * Retrieves the top `UIViewController` from the view hierarchy.
@@ -67,30 +59,15 @@ fun debugTopViewController(base: UIViewController? = UIApplication.sharedApplica
     }
 }
 
+
 /**
- * Creates a `UIViewController` that hosts a Compose UI.
+ * Retrieves the top `UINavigationController` from the view hierarchy.
  *
- * @param modifier The `Modifier` to be applied to the Compose UI.
- * @param screen The `Screen` to be displayed in the Compose UI.
- * @param isOpaque Whether the view controller's view is opaque.
- * @return A `UIViewController` that hosts the Compose UI.
+ * @return The top `UINavigationController`, or null if none is found.
  */
-@OptIn(ExperimentalComposeApi::class, ExperimentalMaterialApi::class)
-fun extendedComposeViewController(
-    screen: Screen,
-    isOpaque: Boolean = true,
-): UIViewController {
-    val uiViewController = ComposeUIViewController(configure = {
-        onFocusBehavior = OnFocusBehavior.DoNothing
-        opaque = isOpaque
-    }) {
-        MaterialTheme {
-            BottomSheetNavigator {
-                Navigator(screen = screen)
-            }
-        }
-
+fun getNavigationController(): UINavigationController? {
+    val topVc = getTopViewController()
+    return topVc?.let { topViewController ->
+        topViewController as? UINavigationController ?: topViewController.navigationController
     }
-
-    return UIViewControllerWrapper(uiViewController)
 }
