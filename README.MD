@@ -10,7 +10,7 @@
 ## Overview
 
 
-The **Voyant** is an extension library for **Voyager** and **Jetpack Compose Navigation** it enables developers to use native navigation for **Apple** platforms.
+ **Voyant** is an extension library for **Voyager** and **Jetpack Compose Navigation** it enables developers to use native navigation for **Apple** platforms.
 
 
 ## Installation
@@ -37,6 +37,7 @@ implementation("io.github.kashif-mehmood-km:voyant-navigation-compose:0.0.2")
 ## Usage
 
 **Voyager**
+
 Instead of using methods of voyager library like `push` use `pushX` instead. Similary for `BottomSheetNavigator` use `showX` instead of `show`
 
 **Navigation Compose**
@@ -67,7 +68,7 @@ object MovieScreenRoute : VoyantRoute {
     }
 }
 ```
-- ***Note:*** that instead of `rememeberNavController` we are using `rememberKMPNavController` instead
+- ***Note:*** Instead of `rememeberNavController` we are using `rememberKMPNavController` which is a wrapper around `NavHostController` to provide the same functionality as `NavHostController` for `Voyant` routes.
 
 
 define the navgraph and use the serialized version of routes and get them from back stack entry
