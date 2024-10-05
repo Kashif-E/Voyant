@@ -21,12 +21,12 @@
 - For Voyager
 
 ```Kotlin  
-implementation("io.github.kashif-mehmood-km:voyant-voyagerx:0.0.2")  
+implementation("io.github.kashif-mehmood-km:voyant-voyagerx:0.0.3")  
 ```  
 - For compose Navigation
 
 ```Kotlin
-implementation("io.github.kashif-mehmood-km:voyant-navigation-compose:0.0.2") 
+implementation("io.github.kashif-mehmood-km:voyant-navigation-compose:0.0.3") 
 ```
 
 
