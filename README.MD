@@ -1,20 +1,15 @@
 
 # Voyant
-
-<p align="center">
+<p align="left">
   <a href="https://github.com/Kashif-E/Voyant/releases/tag/0.0.1">
     <img src="https://img.shields.io/github/v/release/kashif-e/voyant" alt="Version">
   </a>
-</p>
-
-<p align="center">
   <a href="https://mailchi.mp/kotlinweekly/kotlin-weekly-427">
     <img src="https://img.shields.io/badge/Kotlin%20Weekly-427-blue" alt="Kotlin Weekly">
   </a>
 </p>
 
 ## Overview
-
 
  **Voyant** is an extension library for **Voyager** and **Jetpack Compose Navigation** it enables developers to use native navigation for **Apple** platforms.
 
