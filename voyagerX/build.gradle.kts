@@ -93,13 +93,13 @@ mavenPublishing {
     coordinates(
         groupId = "io.github.kashif-mehmood-km",
         artifactId = "voyant-voyagerx",
-        version = "0.0.3"
+        version = "0.0.5"
     )
 
 
 
     pom {
-        name.set("Voyant")
+        name.set("Voyant-VoyagerX")
         description.set("Voyant is an extension library for Voyager and Navigation Compose to use native navigation on apple platforms..")
         inceptionYear.set("2024")
         url.set("https://github.com/kashif-e/voyant")
