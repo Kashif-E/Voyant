@@ -31,6 +31,5 @@ dependencyResolutionManagement {
 includeBuild("convention-plugins")
 include(":voyagerX")
 include(":composeApp")
-
 include(":navigationComposeX")
 include(":common")

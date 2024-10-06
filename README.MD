@@ -7,6 +7,12 @@
   </a>
 </p>
 
+<p align="center">
+  <a href="https://mailchi.mp/kotlinweekly/kotlin-weekly-427">
+    <img src="https://img.shields.io/badge/Kotlin%20Weekly-427-blue" alt="Kotlin Weekly">
+  </a>
+</p>
+
 ## Overview
 
 
@@ -21,12 +27,12 @@
 - For Voyager
 
 ```Kotlin  
-implementation("io.github.kashif-mehmood-km:voyant-voyagerx:0.0.3")  
+implementation("io.github.kashif-mehmood-km:voyant-voyagerx:0.0.5")  
 ```  
 - For compose Navigation
 
 ```Kotlin
-implementation("io.github.kashif-mehmood-km:voyant-navigation-compose:0.0.3") 
+implementation("io.github.kashif-mehmood-km:voyant-navigation-compose:0.0.5") 
 ```
 
 
