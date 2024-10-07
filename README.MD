@@ -71,21 +71,29 @@ struct ContentView: View {
 
 ## Usage
 
-**Theme**
-IOS navigation works differently then compose navigation. In IOS navigation, we have to provide a
-theme to every viewController as it can not inherit it from previous view controller. For that, we have to provide a theme to every viewcontroller.
-Its done internally from the library. You only have to add this code to top level Composable.
-
-```Kotlin
- LaunchedEffect(Unit) {
-     //AppTheme Being your material theme
-        ThemeManager.setTheme { content -> AppTheme { content() } }
-    }
-```
-
 **Voyager**
 
-Instead of using methods of voyager library like `push` use `pushX` instead. Similary for `BottomSheetNavigator` use `showX` instead of `show`
+```Kotlin
+@Composable
+@OptIn(ExperimentalMaterialApi::class)
+fun VoyagerNavigation() {
+    Voyant(content = {
+        Navigator(ScreenA())
+    }, wrapper = { content ->
+        AppTheme {
+            BottomSheetNavigator {
+                content()
+            }
+        }
+    })
+}
+```
+
+- `Voyant` is the entry point for the library, it takes two parameters `content` and `wrapper`
+  where `content` is the main content of the app and `wrapper` is the wrapper around the content.
+  Pass the `Navigator` as the content and `BottomSheetNavigator` as the wrapper.
+- Instead of using methods of voyager library like `push` use `pushX` instead. Similar
+  for `BottomSheetNavigator` use `showX` instead of `show`
 
 **Navigation Compose**
 
@@ -120,22 +128,31 @@ define the navgraph and use the serialized version of routes and get them from b
 ```Kotlin
 @Composable
 fun NavigationCompose() {
-    val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = MovieScreenRoute) {
-        composable<MovieScreenRoute> { backStackEntry ->
-            val searchDomainModel = backStackEntry.toRoute<MovieScreenRoute>()
-            searchDomainModel.content(navController)
+    Voyant(content = {
+        val navController = rememberNavController()
+        NavHost(navController = navController, startDestination = MovieScreenRoute) {
+            composable<MovieScreenRoute> { backStackEntry ->
+                val searchDomainModel = backStackEntry.toRoute<MovieScreenRoute>()
+                searchDomainModel.content(navController)
+            }
+            composable<MovieDetailsScreenRoute> { navBackStackEntry ->
+                val movieDetailsScreenRoute =
+                    navBackStackEntry.toRoute<MovieDetailsScreenRoute>()
+                movieDetailsScreenRoute.content(navController)
+            }
         }
-        composable<MovieDetailsScreenRoute> { navBackStackEntry ->
-            val movieDetailsScreenRoute = navBackStackEntry.toRoute<MovieDetailsScreenRoute>()
-            movieDetailsScreenRoute.content(navController)
-        }
-    }
-}
 
+    }, wrapper = { content ->
+        AppTheme {
+            content()
+        }
+    })
+}
 
 ```
 
+- Use the Voyant function to wrap the `NavHost` and `AppTheme` or any other wrapper such as koinApplication.
+- Pass the `NavHost` as the content and `AppTheme` or any other wrapper as the wrapper.
 
 
 You can check the `composeApp` for more details on both `navigation compose` and `voyager` usage.
@@ -145,7 +162,7 @@ The library is in an experimental stage, APIs can change/break.
 
 **Contributions**
 
-We welcome contributions! Before submitting a pull request, please open an issue so we can discuss the proposed changes and collaborate on improving the project.
+Contributions are Welcome! Before submitting a pull request, please open an issue so we can discuss the proposed changes and collaborate on improving the project.
 
 **Feature Requests**
 Feature requests are encouraged, and I’ll do my best to address them as quickly as possible.

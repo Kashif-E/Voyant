@@ -1,77 +1,66 @@
 package com.kashif.sample
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import com.kashif.sample.compose.NavigationCompose
 import com.kashif.sample.theme.AppTheme
-import com.kashif.sample.voyager.ScreenA
-import com.kashif.voyant.pushX
-import com.kashif.voyant_common.ThemeManager
+import com.kashif.sample.voyager.VoyagerNavigation
 
-
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
-internal fun App() {
+internal fun App() = AppTheme {
+    var useComposeNavigation by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
-        ThemeManager.setTheme { content -> AppTheme { content() } }
-    }
-
-    AppTheme {
-        BottomSheetNavigator {
-            Navigator(MainScreen())
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        // Display the appropriate navigation based on the state
+        if (useComposeNavigation) {
+            NavigationCompose()
+        } else {
+            VoyagerNavigation()
         }
+
+        NavigationToggleButton(
+            isComposeNavigation = useComposeNavigation,
+            onToggle = { useComposeNavigation = it }
+        )
     }
 }
 
-class MainScreen : Screen {
-    @Composable
-    override fun Content() {
-        val localNavigator = LocalNavigator.currentOrThrow
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Button(onClick = { localNavigator.pushX(ScreenA()) }) {
-                Text(text = "Voyager Navigation")
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(onClick = { localNavigator.push(ComposeNav()) }) {
-                Text(text = "Navigation Compose")
-            }
-        }
+/**
+ * Composable for the toggle button to switch between Compose and Voyager navigation.
+ * @param isComposeNavigation The current state of the toggle button (true for Compose, false for Voyager).
+ * @param onToggle Callback invoked when the toggle state changes.
+ */
+@Composable
+fun BoxScope.NavigationToggleButton(
+    isComposeNavigation: Boolean,
+    onToggle: (Boolean) -> Unit
+) {
+    Button(
+        onClick = { onToggle(!isComposeNavigation) },
+        modifier = Modifier
+            .align(Alignment.CenterStart),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = if (isComposeNavigation) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary
+        )
+    ) {
+        Text(
+            text = if (isComposeNavigation) "Switch to Voyager" else "Switch to Compose",
+            color = MaterialTheme.colorScheme.onPrimary
+        )
     }
 }
-
-class ComposeNav : Screen {
-    @Composable
-    override fun Content() {
-        NavigationCompose()
-    }
-}
-
-
-
-
-
-
-
-
-
