@@ -13,11 +13,11 @@ fun NavigationCompose() {
     NavHost(navController = navController, startDestination = MovieScreenRoute) {
         composable<MovieScreenRoute> { backStackEntry ->
             val searchDomainModel = backStackEntry.toRoute<MovieScreenRoute>()
-            searchDomainModel.content()
+            searchDomainModel.content(navController)
         }
         composable<MovieDetailsScreenRoute> { navBackStackEntry ->
             val movieDetailsScreenRoute = navBackStackEntry.toRoute<MovieDetailsScreenRoute>()
-            movieDetailsScreenRoute.content()
+            movieDetailsScreenRoute.content(navController)
         }
     }
 }
