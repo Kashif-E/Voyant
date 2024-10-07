@@ -1,14 +1,13 @@
 package com.kashif.voyant
 
 
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.ui.uikit.OnFocusBehavior
 import androidx.compose.ui.window.ComposeUIViewController
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
-import com.kashif.voyant_common.ThemeManager
+import com.kashif.voyant_common.WrapperManager
 import com.kashif.voyant_common.extensions.UIViewControllerWrapper
 import com.kashif.voyant_common.extensions.getNavigationController
 import com.kashif.voyant_common.extensions.getTopViewController
@@ -81,7 +80,7 @@ actual fun BottomSheetNavigator.showX(screen: Screen) {
  * @param isOpaque Whether the view controller's view is opaque.
  * @return A `UIViewController` that hosts the Compose UI.
  */
-@OptIn(ExperimentalComposeApi::class, ExperimentalMaterialApi::class)
+@OptIn(ExperimentalComposeApi::class)
 fun extendedComposeViewController(
     screen: Screen,
     isOpaque: Boolean = true,
@@ -90,10 +89,8 @@ fun extendedComposeViewController(
         onFocusBehavior = OnFocusBehavior.DoNothing
         opaque = isOpaque
     }) {
-        ThemeManager.currentTheme {
-            BottomSheetNavigator {
-                Navigator(screen = screen)
-            }
+        WrapperManager.applyLambda {
+            Navigator(screen = screen)
         }
 
     }

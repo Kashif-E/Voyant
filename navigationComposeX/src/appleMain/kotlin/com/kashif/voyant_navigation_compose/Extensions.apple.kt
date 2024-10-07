@@ -4,7 +4,7 @@ import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.ui.uikit.OnFocusBehavior
 import androidx.compose.ui.window.ComposeUIViewController
 import androidx.navigation.NavController
-import com.kashif.voyant_common.ThemeManager
+import com.kashif.voyant_common.WrapperManager
 import com.kashif.voyant_common.extensions.UIViewControllerWrapper
 import com.kashif.voyant_common.extensions.getNavigationController
 import platform.Foundation.NSLog
@@ -22,7 +22,7 @@ fun extendedComposeViewController(
         onFocusBehavior = OnFocusBehavior.DoNothing
         opaque = isOpaque
     }) {
-        ThemeManager.currentTheme {
+        WrapperManager.applyLambda {
             screen.content(NavController())
         }
     }

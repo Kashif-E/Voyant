@@ -46,8 +46,8 @@ kotlin {
             implementation(compose.material)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            api(projects.voyagerX)
-            api(projects.navigationComposeX)
+            implementation(projects.voyagerX)
+            implementation(projects.navigationComposeX)
             implementation(libs.kotlinx.serialization.json)
         }
 
