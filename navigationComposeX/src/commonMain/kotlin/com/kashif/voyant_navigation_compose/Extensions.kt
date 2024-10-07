@@ -1,13 +1,12 @@
 package com.kashif.voyant_navigation_compose
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
 
-@Composable
-expect fun rememberKMPNavController(): NavigationController
 
 interface VoyantRoute{
     @Composable
-    fun content()
+    fun content(navController: NavController)
 }
 
 
@@ -17,4 +16,6 @@ interface NavigationController {
 
 }
 
+expect fun NavController.navigateX(route: VoyantRoute)
 
+expect fun NavController.popBackStackX()

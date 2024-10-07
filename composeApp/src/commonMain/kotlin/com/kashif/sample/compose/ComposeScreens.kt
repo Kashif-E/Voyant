@@ -9,20 +9,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.kashif.voyant_navigation_compose.VoyantRoute
-import com.kashif.voyant_navigation_compose.rememberKMPNavController
+import com.kashif.voyant_navigation_compose.navigateX
+import com.kashif.voyant_navigation_compose.popBackStackX
 import kotlinx.serialization.Serializable
 
 @Serializable
 object MovieScreenRoute : VoyantRoute {
     @Composable
-    override fun content() {
-        val navController = rememberKMPNavController()
+    override fun content(navController: NavController) {
         Box(modifier = Modifier.fillMaxSize()) {
             Text(
                 "Movie Screen",
                 modifier = Modifier.padding(16.dp).align(Alignment.Center).clickable {
-                    navController.navigate(MovieDetailsScreenRoute)
+                    navController.navigateX(MovieDetailsScreenRoute)
                 })
         }
     }
@@ -31,13 +32,12 @@ object MovieScreenRoute : VoyantRoute {
 @Serializable
 object MovieDetailsScreenRoute : VoyantRoute {
     @Composable
-    override fun content() {
-        val navController = rememberKMPNavController()
+    override fun content(navController: NavController) {
         Box(modifier = Modifier.fillMaxSize()) {
             Text(
                 "Movie details Screen",
                 modifier = Modifier.padding(16.dp).align(Alignment.Center).clickable {
-                    navController.popBackStack()
+                    navController.popBackStackX()
                 })
         }
     }

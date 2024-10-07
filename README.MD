@@ -22,12 +22,12 @@
 - For Voyager
 
 ```Kotlin  
-implementation("io.github.kashif-mehmood-km:voyant-voyagerx:0.0.5")  
+implementation("io.github.kashif-mehmood-km:voyant-voyagerx:0.0.6")  
 ```  
 - For compose Navigation
 
 ```Kotlin
-implementation("io.github.kashif-mehmood-km:voyant-navigation-compose:0.0.5") 
+implementation("io.github.kashif-mehmood-km:voyant-navigation-compose:0.0.6") 
 ```
 
 ## Swift UI
@@ -58,8 +58,6 @@ struct ContentView: View {
             .edgesIgnoringSafeArea(.all)
     }
 }
-
-
 
 ```
 
@@ -96,7 +94,7 @@ Inherit your screens from this `VoyantRoute` interface
 ```Kotlin
 interface VoyantRoute{
     @Composable
-    fun content()
+    fun content(navController: NavController)
 }
 ```
 create your screens like this
@@ -105,21 +103,18 @@ create your screens like this
 @Serializable
 object MovieScreenRoute : VoyantRoute {
     @Composable
-    override fun content() {
-        val navController = rememberKMPNavController()
+    override fun content(navController: NavController) {
+       
         Box(modifier = Modifier.fillMaxSize()) {
             Text(
                 "Movie Screen",
                 modifier = Modifier.padding(16.dp).align(Alignment.Center).clickable {
-                    navController.navigate(MovieDetailsScreenRoute)
+                    navController.navigateX(MovieDetailsScreenRoute)
                 })
         }
     }
 }
 ```
-- ***Note:*** Instead of `rememeberNavController` we are using `rememberKMPNavController` which is a wrapper around `NavHostController` to provide the same functionality as `NavHostController` for `Voyant` routes.
-
-
 define the navgraph and use the serialized version of routes and get them from back stack entry
 
 ```Kotlin
@@ -129,11 +124,11 @@ fun NavigationCompose() {
     NavHost(navController = navController, startDestination = MovieScreenRoute) {
         composable<MovieScreenRoute> { backStackEntry ->
             val searchDomainModel = backStackEntry.toRoute<MovieScreenRoute>()
-            searchDomainModel.content()
+            searchDomainModel.content(navController)
         }
         composable<MovieDetailsScreenRoute> { navBackStackEntry ->
             val movieDetailsScreenRoute = navBackStackEntry.toRoute<MovieDetailsScreenRoute>()
-            movieDetailsScreenRoute.content()
+            movieDetailsScreenRoute.content(navController)
         }
     }
 }
