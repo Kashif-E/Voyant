@@ -30,6 +30,39 @@ implementation("io.github.kashif-mehmood-km:voyant-voyagerx:0.0.5")
 implementation("io.github.kashif-mehmood-km:voyant-navigation-compose:0.0.5") 
 ```
 
+## Swift UI
+
+- For Swift UI there is one small extra step
+
+```Swift
+
+
+struct NavigationControllerWrapper: UIViewControllerRepresentable {
+
+    func makeUIViewController(context: Context) -> UINavigationController {
+        // MainKt.MainViewController() is the entry point of the app wrapped inside a uinavigation controller
+        //so you can get the navigation controller from the view controller
+        let navigationController = UINavigationController(rootViewController: MainKt.MainViewController())
+        navigationController.interactivePopGestureRecognizer?.isEnabled = true
+        return navigationController
+    }
+
+    func updateUIViewController(_ uiViewController: UINavigationController, context: Context) {
+    
+    }
+}
+// content view being used inside AppDelegate to set the root view controller
+struct ContentView: View {
+    var body: some View {
+        NavigationControllerWrapper()
+            .edgesIgnoringSafeArea(.all)
+    }
+}
+
+
+
+```
+
 
 ## Supported Platforms
 
