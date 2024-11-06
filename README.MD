@@ -29,7 +29,7 @@
 - For Voyager
 
 ```Kotlin  
-implementation("io.github.kashif-mehmood-km:voyant-voyagerx:0.0.6")  
+implementation("io.github.kashif-mehmood-km:voyant-voyagerx:0.0.7")  
 ```  
 - For compose Navigation
 
@@ -84,15 +84,9 @@ struct ContentView: View {
 @Composable
 @OptIn(ExperimentalMaterialApi::class)
 fun VoyagerNavigation() {
-    Voyant(content = {
-        Navigator(ScreenA())
-    }, wrapper = { content ->
-        AppTheme {
-            BottomSheetNavigator {
-                content()
-            }
-        }
-    })
+  Voyant(
+    content = { BottomSheetNavigator { Navigator(ScreenA()) } },
+    wrapper = { content -> AppTheme { content() } })
 }
 ```
 

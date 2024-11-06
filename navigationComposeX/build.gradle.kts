@@ -88,7 +88,7 @@ mavenPublishing {
     coordinates(
         groupId = "io.github.kashif-mehmood-km",
         artifactId = "voyant-navigation-compose",
-        version = "0.0.6"
+        version = "0.0.7"
     )
 
 
