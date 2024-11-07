@@ -12,8 +12,12 @@ import com.kashif.voyant_common.extensions.UIViewControllerWrapper
 import com.kashif.voyant_common.extensions.getNavigationController
 import com.kashif.voyant_common.extensions.getTopViewController
 import platform.Foundation.NSLog
+import platform.UIKit.UIModalPresentationPageSheet
+import platform.UIKit.UIModalTransitionStyleCoverVertical
+import platform.UIKit.UISheetPresentationControllerDetent
 import platform.UIKit.UIViewController
 import platform.UIKit.hidesBottomBarWhenPushed
+import platform.UIKit.sheetPresentationController
 
 /**
  * Pushes a new screen onto the navigation stack.
@@ -54,10 +58,37 @@ actual fun BottomSheetNavigator.hideX() {
   topVc?.dismissViewControllerAnimated(true, null) ?: run { NSLog("TopViewController is null") }
 }
 
-actual fun BottomSheetNavigator.showX(screen: Screen) {
-  val viewController = extendedComposeViewController(screen = screen)
-  val topVc = getTopViewController()
-  topVc?.presentViewController(viewController, animated = true, completion = null)
+actual fun BottomSheetNavigator.showX(
+    screen: Screen,
+    skipHalfExpanded: Boolean,
+    fixedHeight: Double
+) {
+
+  val viewController =
+      extendedComposeViewController(
+              screen = screen,
+          )
+          .apply {
+            modalPresentationStyle = UIModalPresentationPageSheet
+            modalTransitionStyle = UIModalTransitionStyleCoverVertical
+
+            sheetPresentationController?.detents =
+                when {
+                  skipHalfExpanded -> listOf(UISheetPresentationControllerDetent.largeDetent())
+                  fixedHeight > 0.0 ->
+                      listOf(
+                          UISheetPresentationControllerDetent.customDetentWithIdentifier(
+                              identifier = "customDetent") { _,
+                                ->
+                                fixedHeight
+                              })
+                  else -> listOf(UISheetPresentationControllerDetent.mediumDetent())
+                }
+
+            sheetPresentationController?.prefersGrabberVisible = true
+          }
+
+  getTopViewController()?.presentViewController(viewController, animated = true, completion = null)
       ?: run { NSLog("TopViewController is null") }
 }
 

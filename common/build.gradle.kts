@@ -93,7 +93,7 @@ mavenPublishing {
     coordinates(
         groupId = "io.github.kashif-mehmood-km",
         artifactId = "common",
-        version = "0.0.7"
+        version = "0.0.8"
     )
 
 

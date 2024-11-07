@@ -42,7 +42,7 @@ class ScreenC : Screen {
             )
 
             Button(
-                onClick = { bottomSheetNavigator.showX(SampleBottomSheet()) },
+                onClick = { bottomSheetNavigator.showX(SampleBottomSheet(), fixedHeight = 250.0) },
                 content = { Text("show bottom sheet") }
             )
         }

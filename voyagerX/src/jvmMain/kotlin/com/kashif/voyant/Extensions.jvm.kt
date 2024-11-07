@@ -5,21 +5,25 @@ import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 
 actual fun Navigator.popX() {
-    pop()
+  pop()
 }
 
 actual fun Navigator.pushX(screen: Screen) {
-    push(screen)
+  push(screen)
 }
 
 actual fun Navigator.popUntilRootX() {
-    popUntilRoot()
+  popUntilRoot()
 }
 
-actual fun BottomSheetNavigator.showX(screen: Screen) {
-    show(screen)
+actual fun BottomSheetNavigator.showX(
+    screen: Screen,
+    skipHalfExpanded: Boolean,
+    fixedHeight: Double
+) {
+  show(screen)
 }
 
 actual fun BottomSheetNavigator.hideX() {
-    hide()
+  hide()
 }

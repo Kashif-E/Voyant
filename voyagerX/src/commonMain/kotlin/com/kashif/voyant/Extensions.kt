@@ -12,4 +12,11 @@ expect fun Navigator.popUntilRootX()
 
 expect fun BottomSheetNavigator.hideX()
 
-expect fun BottomSheetNavigator.showX(screen: Screen)
+/**
+ * fixed height and skip half expanded are only for ios bottomsheet
+ */
+expect fun BottomSheetNavigator.showX(
+    screen: Screen,
+    skipHalfExpanded: Boolean = false,
+    fixedHeight: Double = 0.0
+)
