@@ -95,6 +95,14 @@ fun VoyagerNavigation() {
   Pass the `Navigator` as the content and `BottomSheetNavigator` as the wrapper.
 - Instead of using methods of voyager library like `push` use `pushX` instead. Similar
   for `BottomSheetNavigator` use `showX` instead of `show`
+- ```Kotlin
+  fun BottomSheetNavigator.showX(
+    screen: Screen,
+    skipHalfExpanded: Boolean = false,
+    fixedHeight: Double = 0.0
+)
+``` 
+showX has two extra parameters `skipHalfExpanded` and `fixedHeight` which are optional and can be used to skip the half expanded state and set the fixed height of the bottom sheet respectively for IOS.
 
 **Navigation Compose**
 
