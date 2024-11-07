@@ -29,12 +29,12 @@
 - For Voyager
 
 ```Kotlin  
-implementation("io.github.kashif-mehmood-km:voyant-voyagerx:0.0.7")  
+implementation("io.github.kashif-mehmood-km:voyant-voyagerx:latest")  
 ```  
 - For compose Navigation
 
 ```Kotlin
-implementation("io.github.kashif-mehmood-km:voyant-navigation-compose:0.0.6") 
+implementation("io.github.kashif-mehmood-km:voyant-navigation-compose:latest") 
 ```
 
 ## Swift UI
