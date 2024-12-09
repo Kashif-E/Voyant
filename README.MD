@@ -103,7 +103,7 @@ fun VoyagerNavigation() {
   )
   ```
 
-showX has two extra parameters `skipHalfExpanded` and `fixedHeight` which are optional and can be used to skip the half expanded state and set the fixed height of the bottom sheet respectively for IOS.
+  showX has two extra parameters `skipHalfExpanded` and `fixedHeight` which are optional and can be used to skip the half expanded state and set the fixed height of the bottom sheet respectively for IOS.
 
 **Navigation Compose**
 
