@@ -23,19 +23,19 @@ object MovieScreenRoute : VoyantRoute {
             Text(
                 "Movie Screen",
                 modifier = Modifier.padding(16.dp).align(Alignment.Center).clickable {
-                    navController.navigateX(MovieDetailsScreenRoute)
+                    navController.navigateX(MovieDetailsScreenRoute("Movie Name"))
                 })
         }
     }
 }
 
 @Serializable
-object MovieDetailsScreenRoute : VoyantRoute {
+data class MovieDetailsScreenRoute(val movieName: String) : VoyantRoute {
     @Composable
     override fun content(navController: NavController) {
         Box(modifier = Modifier.fillMaxSize()) {
             Text(
-                "Movie details Screen",
+                "Movie details Screen $movieName",
                 modifier = Modifier.padding(16.dp).align(Alignment.Center).clickable {
                     navController.popBackStackX()
                 })
